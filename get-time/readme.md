@@ -1,4 +1,4 @@
-https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local
+Essence of https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local:
 
     func init my-function-proj
     func new
