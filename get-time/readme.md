@@ -1,11 +1,10 @@
-# HttpTrigger - C<span>#</span>
+https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local
 
-The `HttpTrigger` makes it incredibly easy to have your functions executed via an HTTP call to your function.
+    func init my-function-proj
+    func new
+    func host start
 
-## How it works
+    # execute in Azure CLI to switch to the version 2.x of the runtime
+    az functionapp config appsettings set --name function-app-name --resource-group resource-group-name --settings FUNCTIONS_EXTENSION_VERSION=beta
 
-When you call the function, be sure you checkout which security rules you apply. If you're using an apikey, you'll need to include that in your request.
-
-## Learn more
-
-<TODO> Documentation
+    func azure functionapp publish my-function-app
