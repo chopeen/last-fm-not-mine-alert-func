@@ -9,20 +9,24 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 public static IActionResult Run(HttpRequest req, TraceWriter log)
 {
     log.Info("C# HTTP trigger function processed a request.");
 
-    string jsonData = "";
+    string recentTracksString = "";
     using (HttpClient client = new HttpClient())
     {
         // using GetStringAsync in a way that makes a synchronous call; it simplifies the code,
         //   but let's see how soon it becomes a problem
-        jsonData = client.GetStringAsync(getRecentTracksUri()).Result;
+        recentTracksString = client.GetStringAsync(getRecentTracksUri()).Result;
     }
+
+    JObject recentTracks = JObject.Parse(recentTracksString);
+    var attr = recentTracks["recenttracks"]["@attr"];
     
-    return new OkObjectResult(jsonData);
+    return new OkObjectResult(attr.ToString());
 }
 
 private static string getRecentTracksUri()
