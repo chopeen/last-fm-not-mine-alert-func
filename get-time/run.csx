@@ -13,27 +13,26 @@ using Newtonsoft.Json;
 public static IActionResult Run(HttpRequest req, TraceWriter log)
 {
     log.Info("C# HTTP trigger function processed a request.");
-    /*
-        string name = req.Query["name"];
 
-        string requestBody = new StreamReader(req.Body).ReadToEnd();
-        dynamic data = JsonConvert.DeserializeObject(requestBody);
-        name = name ?? data?.name;
+    string jsonData = "";
+    using (HttpClient client = new HttpClient())
+    {
+        // using GetStringAsync in a way that makes a synchronous call; it simplifies the code,
+        //   but let's see how soon it becomes a problem
+        jsonData = client.GetStringAsync(getRecentTracksUri()).Result;
+    }
+    
+    return new OkObjectResult(jsonData);
+}
 
-        return name != null
-            ? (ActionResult)new OkObjectResult($"Hello, {name}")
-            : new BadRequestObjectResult("Please pass a name on the query string or in the request body");
-    */
-    /*
-        HttpClient client = new HttpClient();
-
-        client.BaseAddress = new Uri("http://ws.audioscrobbler.com/2.0/");
-        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-    */
-
-
-    string result = getLocalSetting("FooValue") + Environment.NewLine + DateTime.Now.ToString();
-    return new OkObjectResult(result);
+private static string getRecentTracksUri()
+{
+    return String.Format(
+        "http://ws.audioscrobbler.com/2.0/?method={0}&user={1}&api_key={2}&format=json",
+        "user.getrecenttracks",
+        getLocalSetting("LastFmUser"),
+        getLocalSetting("LastFmKey")
+    );
 }
 
 private static string getLocalSetting(string name)
