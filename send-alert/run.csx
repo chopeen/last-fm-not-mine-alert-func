@@ -23,15 +23,43 @@ public static IActionResult Run(HttpRequest req, TraceWriter log)
         recentTracksString = client.GetStringAsync(getRecentTracksUri()).Result;
     }
 
+    var recentArtists = getRecentArtists(recentTracksString);
+    var notMyArtists = getNotMyArtists();
+    var notMyArtistsPlayedRecently = recentArtists.Intersect(notMyArtists);
+
+    // debugging helper
+    // notMyArtistsPlayedRecently.ToList().ForEach(x => Console.WriteLine(x));
+
+    string result = string.Join(";", notMyArtistsPlayedRecently);    
+    return new OkObjectResult(result);
+}
+
+private static List<string> getRecentArtists(string recentTracksString)
+{
     JObject recentTracks = JObject.Parse(recentTracksString);
-    var attr = recentTracks["recenttracks"]["@attr"];
-    
-    return new OkObjectResult(attr.ToString());
+    var tracks = recentTracks["recenttracks"]["track"].ToList();
+
+    return tracks
+        .Select(
+            x => x["artist"]["#text"].ToString().ToLower().Trim()
+        )
+        .ToList();
+}
+
+private static List<string> getNotMyArtists()
+{
+    return getLocalSetting("NotMyArtists")
+        .Split(';')
+        .ToList()
+        .Select(
+            x => x.ToLower().Trim()
+            )
+        .ToList();
 }
 
 private static string getRecentTracksUri()
 {
-    return String.Format(
+    return string.Format(
         "http://ws.audioscrobbler.com/2.0/?method={0}&user={1}&api_key={2}&format=json",
         "user.getrecenttracks",
         getLocalSetting("LastFmUser"),
