@@ -15,15 +15,6 @@
       "name": "$return",
       "type": "http",
       "direction": "out"
-    },
-    {
-      "name": "message",
-      "type": "sendGrid",
-      "direction": "out",
-      "apiKey" : "SendGridKey",
-      "to": "EmailToAlert",
-      "from": "EmailFromAlert",
-      "subject": "[not-mine-alert] Check the scrobbles!"
     }
   ]
 }
