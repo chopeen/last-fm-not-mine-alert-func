@@ -21,6 +21,7 @@
 ### SendGrid email
 
  - https://sendgrid.com/docs/Integrate/Code_Examples/v3_Mail/csharp.html
+ - https://docs.microsoft.com/en-us/azure/sendgrid-dotnet-how-to-send-email
  - https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-sendgrid
  - Steps to install:
    1. Add a SendGrid binding to `function.json`
