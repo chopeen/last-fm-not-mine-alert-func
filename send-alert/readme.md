@@ -15,5 +15,17 @@
 
 ### Working with JSON data
 
-https://www.newtonsoft.com/json/help/html/QueryingLINQtoJSON.htm
-https://www.newtonsoft.com/json/help/html/T_Newtonsoft_Json_Linq_JObject.htm
+ - https://www.newtonsoft.com/json/help/html/QueryingLINQtoJSON.htm
+ - https://www.newtonsoft.com/json/help/html/T_Newtonsoft_Json_Linq_JObject.htm
+
+### SendGrid email
+
+ - https://sendgrid.com/docs/Integrate/Code_Examples/v3_Mail/csharp.html
+ - https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-sendgrid
+ - Steps to install:
+   1. Add a SendGrid binding to `function.json`
+   1. `func extensions install` to install all the required bindings
+   1. Create a SendGrid resource through the Azure portal (pick a reasonable 
+      name - it cannot be renamed later)
+   1. Click `Manage` to navigate to https://app.sendgrid.com/ and get an API key from there
+   1. Add the key to `local.settings.json`
