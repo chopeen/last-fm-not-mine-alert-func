@@ -1,15 +1,19 @@
 #r "Newtonsoft.Json"
+#r "SendGrid"
+
 
 using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
-
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 public static IActionResult Run(HttpRequest req, TraceWriter log)
 {
@@ -44,8 +48,31 @@ public static IActionResult Run(HttpRequest req, TraceWriter log)
         string.Format("Request processing finished - {0}alert sent.", needSendAlert ? "" : "no ")
     );
 
+    SendEmail(
+        getLocalSetting("EmailFromAlert"),
+        getLocalSetting("EmailToAlert"),
+        "Hello!",
+        "This is the message body. Hope you're ok."
+        ).Wait();
+
     string result = needSendAlert ? string.Join(";", notMyArtistsPlayedRecently) : "🎸";
     return new OkObjectResult(result);
+}
+
+private static async Task SendEmail(string from, string to, string subject, string body)
+{
+    var client = new SendGridClient(getLocalSetting("SendGridKey"));
+
+    var message = new SendGridMessage()
+    {
+        From = new EmailAddress("from", "not-mine-alert"),
+        Subject = subject,
+        PlainTextContent = body
+        // TODO: specify also HtmlContent
+    };
+    message.AddTo(new EmailAddress(to));
+
+    var response = await client.SendEmailAsync(message);
 }
 
 private static List<string> getRecentArtists(string recentTracksString)
