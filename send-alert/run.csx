@@ -87,6 +87,12 @@ private static string getRecentTracksUri()
 
 private static string getLocalSetting(string name)
 {
-    // TODO: Log an error when the variable is not defined
-    return Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.Process);
+    string value = Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.Process);
+    if (string.IsNullOrEmpty(value))
+    {
+        throw new NullReferenceException(
+            string.Format("Environment variable {0} has no value or is not defined.", name)
+        );
+    }
+    return value;
 }
