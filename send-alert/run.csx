@@ -30,7 +30,9 @@ public static IActionResult Run(HttpRequest req, TraceWriter log)
     // debugging helper
     // notMyArtistsPlayedRecently.ToList().ForEach(x => Console.WriteLine(x));
 
-    string result = string.Join(";", notMyArtistsPlayedRecently);    
+    // TODO: Log some information - notMyArtists, notMyArtistsPlayedRecently, etc
+
+    string result = notMyArtistsPlayedRecently.Count() > 0 ? string.Join(";", notMyArtistsPlayedRecently) : "🎸";
     return new OkObjectResult(result);
 }
 
