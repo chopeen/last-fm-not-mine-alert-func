@@ -65,7 +65,7 @@ private static async Task SendEmail(string from, string to, string subject, stri
 
     var message = new SendGridMessage()
     {
-        From = new EmailAddress("from", "not-mine-alert"),
+        From = new EmailAddress(from, "not-mine-alert"),
         Subject = subject,
         PlainTextContent = body
         // TODO: specify also HtmlContent
