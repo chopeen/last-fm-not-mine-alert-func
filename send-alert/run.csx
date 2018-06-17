@@ -13,8 +13,8 @@ using Newtonsoft.Json.Linq;
 
 public static IActionResult Run(HttpRequest req, TraceWriter log)
 {
-    // TODO: Is it wrotten to console when executed locally?
-    log.Info("C# HTTP trigger function processed a request.");
+    // when executed locally, logged to the console
+    log.Info("Request processing started.");
 
     string recentTracksString = "";
     using (HttpClient client = new HttpClient())
@@ -31,9 +31,17 @@ public static IActionResult Run(HttpRequest req, TraceWriter log)
     // debugging helper
     // notMyArtistsPlayedRecently.ToList().ForEach(x => Console.WriteLine(x));
 
-    // TODO: Log some information - notMyArtists, notMyArtistsPlayedRecently, etc
+    log.Info("Variable values:");
+    log.Info("   - recentArtists\t= " + string.Join("; ", recentArtists));
+    log.Info("   - notMyArtists \t= " + string.Join("; ", notMyArtists));
 
-    string result = notMyArtistsPlayedRecently.Count() > 0 ? string.Join(";", notMyArtistsPlayedRecently) : "🎸";
+    bool needSendAlert = (notMyArtistsPlayedRecently.Count() > 0);
+
+    log.Info(
+        string.Format("Request processing finished - {0}alert sent.", needSendAlert ? "" : "no ")
+    );
+
+    string result = needSendAlert ? string.Join(";", notMyArtistsPlayedRecently) : "🎸";
     return new OkObjectResult(result);
 }
 
