@@ -32,8 +32,8 @@ public static IActionResult Run(HttpRequest req, TraceWriter log)
     // notMyArtistsPlayedRecently.ToList().ForEach(x => Console.WriteLine(x));
 
     log.Info("Variable values:");
-    log.Info("   - recentArtists\t= " + string.Join("; ", recentArtists));
-    log.Info("   - notMyArtists \t= " + string.Join("; ", notMyArtists));
+    log.Info("   - recentArtists = " + string.Join("; ", recentArtists));
+    log.Info("   - notMyArtists  = " + string.Join("; ", notMyArtists));
 
     bool needSendAlert = (notMyArtistsPlayedRecently.Count() > 0);
 
