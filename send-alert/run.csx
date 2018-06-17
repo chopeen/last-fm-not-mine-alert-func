@@ -73,6 +73,17 @@ private static async Task SendEmail(string from, string to, string subject, stri
     message.AddTo(new EmailAddress(to));
 
     var response = await client.SendEmailAsync(message);
+
+    // TODO: Uncomment the code below and throw and exception with these details,
+    //       but first fix the CS1701 warning for the HttpStatusCode enum
+    /*
+    // https://github.com/sendgrid/sendgrid-csharp/blob/0af6b0a9d6b503a19aabf43faa52be0539524fef/src/SendGrid/Response.cs
+    if (response.StatusCode != System.Net.HttpStatusCode.Accepted)
+    {
+        Console.WriteLine(response.StatusCode);
+        Console.WriteLine(response.Body.ReadAsStringAsync().Result);
+    }
+     */
 }
 
 private static List<string> getRecentArtists(string recentTracksString)
