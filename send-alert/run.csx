@@ -31,9 +31,12 @@ public static IActionResult Run(HttpRequest req, TraceWriter log)
     // debugging helper
     // notMyArtistsPlayedRecently.ToList().ForEach(x => Console.WriteLine(x));
 
-    log.Info("Variable values:");
-    log.Info("   - recentArtists = " + string.Join("; ", recentArtists));
-    log.Info("   - notMyArtists  = " + string.Join("; ", notMyArtists));
+    log.Info(
+        string.Format("Recent artists:       {0} [{1}]", string.Join("; ", recentArtists), recentArtists.Count())
+    );
+    log.Info(
+        string.Format("Blacklisted artists:  {0} [{1}]", string.Join("; ", notMyArtists), notMyArtists.Count())
+    );
 
     bool needSendAlert = (notMyArtistsPlayedRecently.Count() > 0);
 
