@@ -56,6 +56,7 @@ private static List<string> getRecentArtists(string recentTracksString)
         .Select(
             x => x["artist"]["#text"].ToString().ToLower().Trim()
         )
+        .Distinct()
         .ToList();
 }
 
