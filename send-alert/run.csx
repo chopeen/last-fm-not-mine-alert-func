@@ -48,6 +48,9 @@ public static IActionResult Run(HttpRequest req, TraceWriter log)
         string.Format("Request processing finished - {0}alert sent.", needSendAlert ? "" : "no ")
     );
 
+    // TODO: This is to test that email sending actually works - start sending actual alerts:
+    //       1. Only send an email when needed
+    //       2. Include a list of artists (ideally with track names) to investigate
     SendEmail(
         getLocalSetting("EmailFromAlert"),
         getLocalSetting("EmailToAlert"),
