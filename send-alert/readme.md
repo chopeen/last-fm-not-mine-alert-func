@@ -12,3 +12,8 @@
     func azure functionapp publish my-function-app
     # add --publish-local-settings to migrate the settings from
     #   local.settings.json to Azure; they are added to "Application settings"
+
+### Working with JSON data
+
+https://www.newtonsoft.com/json/help/html/QueryingLINQtoJSON.htm
+https://www.newtonsoft.com/json/help/html/T_Newtonsoft_Json_Linq_JObject.htm
