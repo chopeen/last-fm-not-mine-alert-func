@@ -13,6 +13,7 @@ using Newtonsoft.Json.Linq;
 
 public static IActionResult Run(HttpRequest req, TraceWriter log)
 {
+    // TODO: Is it wrotten to console when executed locally?
     log.Info("C# HTTP trigger function processed a request.");
 
     string recentTracksString = "";
@@ -74,5 +75,6 @@ private static string getRecentTracksUri()
 
 private static string getLocalSetting(string name)
 {
+    // TODO: Log an error when the variable is not defined
     return Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.Process);
 }
