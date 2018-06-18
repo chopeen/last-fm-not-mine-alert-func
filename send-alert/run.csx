@@ -66,14 +66,9 @@ private static async Task SendEmail(string from, string to, string subject, stri
 {
     var client = new SendGridClient(getLocalSetting("SendGridKey"));
 
-    var message = new SendGridMessage()
-    {
-        From = new EmailAddress(from, "not-mine-alert"),
-        Subject = subject,
-        PlainTextContent = body
-        // TODO: specify also HtmlContent
-    };
-    message.AddTo(new EmailAddress(to));
+    // https://github.com/sendgrid/sendgrid-csharp/blob/master/src/SendGrid/Helpers/Mail/MailHelper.cs#L31
+    var message = MailHelper.CreateSingleEmail(new EmailAddress(from, "not-mine-alert"), new EmailAddress(to), 
+        subject, body, null);  // TODO: Specify also HtmlContent
 
     var response = await client.SendEmailAsync(message);
 
@@ -88,6 +83,17 @@ private static async Task SendEmail(string from, string to, string subject, stri
     }
      */
 }
+
+// private static prepareMessage(string from, string to, string subject, string body)
+// {
+//     var message = new SendGridMessage()
+//     {
+//         From = new EmailAddress(from, "not-mine-alert"),
+//         Subject = subject,
+//         PlainTextContent = body
+//     };
+//     message.AddTo(new EmailAddress(to));
+// }
 
 private static List<string> getRecentArtists(string recentTracksString)
 {
