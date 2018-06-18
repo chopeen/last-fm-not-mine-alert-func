@@ -23,15 +23,13 @@
  - https://sendgrid.com/docs/Integrate/Code_Examples/v3_Mail/csharp.html
  - https://docs.microsoft.com/en-us/azure/sendgrid-dotnet-how-to-send-email
  - Steps to install:
-   1. ~~Add a SendGrid binding to `function.json`~~ -- **not needed**, because SendGrid is
-      not used as a binding in this case
-      - the function sends an email, but this email isn't its output; 
-      the output is the HTTP response ([more precise explanation](https://docs.microsoft.com/en-us/azure/azure-functions/functions-triggers-bindings) +
-      [even more](https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-sendgrid))
-      - this may change when I finally switch to the `Timer` trigger)
-   1. ~~`func extensions install` to install all the required bindings~~ -- **how to install** the SendGrid
-      package without the 1st step?
-   1. Create a SendGrid resource through the Azure portal (pick a reasonable 
+   1. Add a SendGrid output binding to `function.json` (read
+      [Sending Emails with SendGrid and Azure Functions](http://markheath.net/post/sending-emails-sendgrid-azure-functions)
+      for a good explanation of the SendGrid binding and 
+      [Azure Functions triggers and bindings concepts](https://docs.microsoft.com/en-us/azure/azure-functions/functions-triggers-bindings)
+      for general information about triggers an bindings)
+   2. `func extensions install` to install all the required bindings
+   3. Create a SendGrid resource through the Azure portal (pick a reasonable 
       name - it cannot be renamed later)
-   1. Click `Manage` to navigate to https://app.sendgrid.com/ and get an API key from there
-   1. Add the key to `local.settings.json`
+   4. Click `Manage` to navigate to https://app.sendgrid.com/ and get an API key from there
+   5. Add the key to `local.settings.json`

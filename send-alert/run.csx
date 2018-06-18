@@ -15,7 +15,7 @@ using Newtonsoft.Json.Linq;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
-public static IActionResult Run(HttpRequest req, TraceWriter log)
+public static IActionResult Run(HttpRequest req, TraceWriter log, out SendGridMessage message)
 {
     // when executed locally, logged to the console
     log.Info("Request processing started.");
@@ -51,37 +51,27 @@ public static IActionResult Run(HttpRequest req, TraceWriter log)
     // TODO: This is to test that email sending actually works - start sending actual alerts:
     //       1. Only send an email when needed
     //       2. Include a list of artists (ideally with track names) to investigate
-    SendEmail(
-        getLocalSetting("EmailFromAlert"),
-        getLocalSetting("EmailToAlert"),
-        "Hello!",
-        "This is the message body. Hope you're ok."
-        ).Wait();
+
+    message = getAlertMessage();
 
     string result = needSendAlert ? string.Join(";", notMyArtistsPlayedRecently) : "🎸";
     return new OkObjectResult(result);
 }
 
-private static async Task SendEmail(string from, string to, string subject, string body)
+private static SendGridMessage getAlertMessage()
 {
-    var client = new SendGridClient(getLocalSetting("SendGridKey"));
+    // TODO: Use MailHelper.StringToEmailAddress here
+    EmailAddress from = new EmailAddress(getLocalSetting("EmailFromAlert"), "not-mine-alert");
+    EmailAddress to = new EmailAddress(getLocalSetting("EmailToAlert"));
+    string subject = "Hello!";
+    string plainTextContent = "This is the message body. Hope you're ok.";
+    // TODO: Specify also HtmlContent
+    string htmlContent = null;
 
     // docs: https://github.com/sendgrid/sendgrid-csharp/blob/master/src/SendGrid/Helpers/Mail/MailHelper.cs#L31
-    var message = MailHelper.CreateSingleEmail(new EmailAddress(from, "not-mine-alert"), new EmailAddress(to), 
-        subject, body, null);  // TODO: Specify also HtmlContent
+    var message = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);  
 
-    var response = await client.SendEmailAsync(message);
-
-    // TODO: Uncomment the code below and throw and exception with these details,
-    //       but first fix the CS1701 warning for the HttpStatusCode enum
-    /*
-    // docs: https://github.com/sendgrid/sendgrid-csharp/blob/master/src/SendGrid/Response.cs
-    if (response.StatusCode != System.Net.HttpStatusCode.Accepted)
-    {
-        Console.WriteLine(response.StatusCode);
-        Console.WriteLine(response.Body.ReadAsStringAsync().Result);
-    }
-     */
+    return message;
 }
 
 private static List<string> getRecentArtists(string recentTracksString)

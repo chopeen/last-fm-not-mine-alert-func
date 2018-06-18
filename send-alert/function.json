@@ -15,6 +15,12 @@
       "name": "$return",
       "type": "http",
       "direction": "out"
-    }
+    },
+    {
+      "type": "sendGrid",
+      "name": "message",
+      "apiKey": "SendGridKey",
+      "direction": "out"
+      }
   ]
 }
