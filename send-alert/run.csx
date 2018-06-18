@@ -60,9 +60,10 @@ public static IActionResult Run(HttpRequest req, TraceWriter log, out SendGridMe
 
 private static SendGridMessage getAlertMessage()
 {
-    // TODO: Use MailHelper.StringToEmailAddress here
-    EmailAddress from = new EmailAddress(getLocalSetting("EmailFromAlert"), "not-mine-alert");
-    EmailAddress to = new EmailAddress(getLocalSetting("EmailToAlert"));
+    // docs: https://github.com/sendgrid/sendgrid-csharp/blob/master/src/SendGrid/Helpers/Mail/MailHelper.cs#L137
+    EmailAddress from = MailHelper.StringToEmailAddress(getLocalSetting("EmailFromAlert"));
+    EmailAddress to = MailHelper.StringToEmailAddress(getLocalSetting("EmailToAlert"));
+    
     string subject = "Hello!";
     string plainTextContent = "This is the message body. Hope you're ok.";
     // TODO: Specify also HtmlContent
