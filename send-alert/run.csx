@@ -65,9 +65,9 @@ private static SendGridMessage getAlertMessage()
     EmailAddress to = MailHelper.StringToEmailAddress(getLocalSetting("EmailToAlert"));
     
     string subject = "Hello!";
+    // TODO: Plain content should be created automatically by stripping tags from HTML context
     string plainTextContent = "This is the message body. Hope you're ok.";
-    // TODO: Specify also HtmlContent
-    string htmlContent = null;
+    string htmlContent = "This is the message body. <strong>Hope you're ok</strong>.";
 
     // docs: https://github.com/sendgrid/sendgrid-csharp/blob/master/src/SendGrid/Helpers/Mail/MailHelper.cs#L31
     var message = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);  
