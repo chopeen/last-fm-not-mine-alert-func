@@ -27,7 +27,7 @@
       [Sending Emails with SendGrid and Azure Functions](http://markheath.net/post/sending-emails-sendgrid-azure-functions)
       for a good explanation of the SendGrid binding and 
       [Azure Functions triggers and bindings concepts](https://docs.microsoft.com/en-us/azure/azure-functions/functions-triggers-bindings)
-      for general information about triggers an bindings)
+      for general information about triggers and bindings)
    2. `func extensions install` to install all the required bindings
    3. Create a SendGrid resource through the Azure portal (pick a reasonable 
       name - it cannot be renamed later)
