@@ -79,7 +79,7 @@ private static List<string> getRecentArtists(string recentTracksString)
 {
     JObject recentTracks = JObject.Parse(recentTracksString);
     // TODO: Can this be improved with a strongly typed model for the Last.fm JSON?
-    //       Give "Paste JSON as Code" one more try.
+    //       Give "Paste JSON as Code" one more try (https://github.com/quicktype/quicktype-vscode/issues/8).
     var tracks = recentTracks["recenttracks"]["track"].ToList();
 
     return tracks
