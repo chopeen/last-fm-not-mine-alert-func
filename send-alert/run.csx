@@ -66,7 +66,7 @@ private static async Task SendEmail(string from, string to, string subject, stri
 {
     var client = new SendGridClient(getLocalSetting("SendGridKey"));
 
-    // https://github.com/sendgrid/sendgrid-csharp/blob/master/src/SendGrid/Helpers/Mail/MailHelper.cs#L31
+    // docs: https://github.com/sendgrid/sendgrid-csharp/blob/master/src/SendGrid/Helpers/Mail/MailHelper.cs#L31
     var message = MailHelper.CreateSingleEmail(new EmailAddress(from, "not-mine-alert"), new EmailAddress(to), 
         subject, body, null);  // TODO: Specify also HtmlContent
 
@@ -75,7 +75,7 @@ private static async Task SendEmail(string from, string to, string subject, stri
     // TODO: Uncomment the code below and throw and exception with these details,
     //       but first fix the CS1701 warning for the HttpStatusCode enum
     /*
-    // https://github.com/sendgrid/sendgrid-csharp/blob/0af6b0a9d6b503a19aabf43faa52be0539524fef/src/SendGrid/Response.cs
+    // docs: https://github.com/sendgrid/sendgrid-csharp/blob/master/src/SendGrid/Response.cs
     if (response.StatusCode != System.Net.HttpStatusCode.Accepted)
     {
         Console.WriteLine(response.StatusCode);
@@ -83,17 +83,6 @@ private static async Task SendEmail(string from, string to, string subject, stri
     }
      */
 }
-
-// private static prepareMessage(string from, string to, string subject, string body)
-// {
-//     var message = new SendGridMessage()
-//     {
-//         From = new EmailAddress(from, "not-mine-alert"),
-//         Subject = subject,
-//         PlainTextContent = body
-//     };
-//     message.AddTo(new EmailAddress(to));
-// }
 
 private static List<string> getRecentArtists(string recentTracksString)
 {
