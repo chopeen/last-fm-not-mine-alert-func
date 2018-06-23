@@ -36,7 +36,7 @@ Copy from Azure to `local.settings.json`:
       for a good explanation of the SendGrid binding and 
       [Azure Functions triggers and bindings concepts](https://docs.microsoft.com/en-us/azure/azure-functions/functions-triggers-bindings)
       for general information about triggers and bindings)
-   2. `func extensions install` to install all the required bindings
+   2. `func extensions install` to install all the required bindings (Linux may require manual installation - see issue #2 for details)
    3. Create a SendGrid resource through the Azure portal (pick a reasonable 
       name - it cannot be renamed later)
    4. Click `Manage` to navigate to https://app.sendgrid.com/ and get an API key from there
