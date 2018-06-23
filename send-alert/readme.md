@@ -10,8 +10,14 @@
       --settings FUNCTIONS_EXTENSION_VERSION=beta
 
     func azure functionapp publish <function-app-name>
-    # add --publish-local-settings to migrate the settings from
-    #   local.settings.json to Azure; they are added to "Application settings"
+
+### Migrating the application settings
+
+Copy from `local.settings.json` to Azure ("Application settings"):
+
+    func azure functionapp publish <function-app-name> --publish-local-settings
+
+Copy from Azure to `local.settings.json`:
 
 ### Working with JSON data
 
