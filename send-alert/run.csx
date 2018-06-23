@@ -15,7 +15,7 @@ using Newtonsoft.Json.Linq;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
-public static IActionResult Run(HttpRequest req, TraceWriter log, out SendGridMessage message)
+public static IActionResult Run(HttpRequest req, TimerInfo timer, TraceWriter log, out SendGridMessage message)
 {
     // when executed locally, logged to the console
     log.Info("Request processing started.");
