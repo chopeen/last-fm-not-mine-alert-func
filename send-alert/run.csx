@@ -15,7 +15,7 @@ using Newtonsoft.Json.Linq;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
-public static IActionResult Run(HttpRequest req, TimerInfo timer, TraceWriter log, out SendGridMessage message)
+public static void Run(TimerInfo timer, TraceWriter log, out SendGridMessage message)
 {
     // when executed locally, logged to the console
     log.Info("Request processing started.");
@@ -53,9 +53,6 @@ public static IActionResult Run(HttpRequest req, TimerInfo timer, TraceWriter lo
     //       2. Include a list of artists (ideally with track names) to investigate
 
     message = getAlertMessage();
-
-    string result = needSendAlert ? string.Join(";", notMyArtistsPlayedRecently) : "🎸";
-    return new OkObjectResult(result);
 }
 
 private static SendGridMessage getAlertMessage()

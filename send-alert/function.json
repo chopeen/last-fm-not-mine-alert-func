@@ -2,16 +2,6 @@
   "disabled": false,
   "bindings": [
     {
-      "authLevel": "function",
-      "name": "req",
-      "type": "httpTrigger",
-      "direction": "in",
-      "methods": [
-        "get",
-        "post"
-      ]
-    },
-    {
       "schedule": "0 */5 * * * *",
       "name": "timer",
       "type": "timerTrigger",
