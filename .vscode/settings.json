@@ -1,3 +1,9 @@
 {
-    "todo-tree.flat": true
+    "todo-tree.flat": true,
+    "workbench.colorTheme": "Default Light+",
+    "files.autoSave": "onFocusChange",
+    "editor.minimap.enabled": false,
+    "git.autofetch": true,
+    // Warning about project created outside VS Code
+    "azureFunctions.showProjectWarning": false
 }
