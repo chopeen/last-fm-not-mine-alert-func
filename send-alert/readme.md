@@ -2,22 +2,25 @@
 
     func init <function-project-name>
     func new
+
+    # execute locally
     func host start
+
+    # deploy to Azure
+    func azure functionapp publish <function-app-name>
 
     # execute in Azure CLI to switch to the version 2.x of the runtime
     az functionapp config appsettings set --name <function-app-name> \
       --resource-group <resource-group-name> \
       --settings FUNCTIONS_EXTENSION_VERSION=beta
 
-    func azure functionapp publish <function-app-name>
-
 ### Migrating the application settings
 
-Copy from `local.settings.json` to Azure ("Application settings"):
+Copy values from `local.settings.json` to "Application settings" in Azure (as part of application deployment):
 
     func azure functionapp publish <function-app-name> --publish-local-settings
 
-Copy from Azure to `local.settings.json`:
+Copy values from Azure to `local.settings.json`:
 
     func azure functionapp fetch-app-settings <function-app-name>
 
