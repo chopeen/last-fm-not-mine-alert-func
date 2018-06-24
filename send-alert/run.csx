@@ -30,7 +30,7 @@ public static void Run(TimerInfo timer, TraceWriter log, out SendGridMessage mes
 
     var recentArtists = getRecentArtists(recentTracksString);
     var notMyArtists = getNotMyArtists();
-    var notMyArtistsPlayedRecently = recentArtists.Intersect(notMyArtists);
+    var notMyArtistsPlayedRecently = recentArtists.Intersect(notMyArtists).ToList();
 
     // debugging helper
     // notMyArtistsPlayedRecently.ToList().ForEach(x => Console.WriteLine(x));
@@ -48,23 +48,33 @@ public static void Run(TimerInfo timer, TraceWriter log, out SendGridMessage mes
         string.Format("Request processing finished - {0}alert sent.", needSendAlert ? "" : "no ")
     );
 
-    // TODO: This is to test that email sending actually works - start sending actual alerts:
-    //       1. Only send an email when needed
-    //       2. Include a list of artists (ideally with track names) to investigate
-
-    message = getAlertMessage();
+    // TODO: Only send an email when needed
+    message = getAlertMessage(notMyArtistsPlayedRecently);
 }
 
-private static SendGridMessage getAlertMessage()
+private static SendGridMessage getAlertMessage(List<string> notMyArtistsPlayedRecently)
 {
     // docs: https://github.com/sendgrid/sendgrid-csharp/blob/master/src/SendGrid/Helpers/Mail/MailHelper.cs#L137
     EmailAddress from = MailHelper.StringToEmailAddress(getLocalSetting("EmailFromAlert"));
     EmailAddress to = MailHelper.StringToEmailAddress(getLocalSetting("EmailToAlert"));
     
-    string subject = "Hello!";
+    string subject = "No news";
+    string plainTextContent = "No mail. No plan. No suspicious scrobbles.";
+    string htmlContent = "No mail. No plan. <strong>No suspicious scrobbles.</strong>";
+
+    if (notMyArtistsPlayedRecently.Count() > 0)
+    {
+        // TODO: Use an email template
+        subject = "Check the Last.fm history";
+        // TODO: List the artists along with the track names
+        plainTextContent = string.Format(
+            "The following artists were played recently: {0}.",
+            string.Join("; ", notMyArtistsPlayedRecently)
+        );
+        htmlContent = plainTextContent;
+    }
+
     // TODO: Plain content should be created automatically by stripping tags from HTML context
-    string plainTextContent = "This is the message body. Hope you're ok.";
-    string htmlContent = "This is the message body. <strong>Hope you're ok</strong>.";
 
     // docs: https://github.com/sendgrid/sendgrid-csharp/blob/master/src/SendGrid/Helpers/Mail/MailHelper.cs#L31
     var message = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);  
