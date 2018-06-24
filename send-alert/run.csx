@@ -15,6 +15,8 @@ using Newtonsoft.Json.Linq;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
+// TODO: Move the CRON expression to settings to use different expressions for local and Azure
+
 public static void Run(TimerInfo timer, TraceWriter log, out SendGridMessage message)
 {
     // when executed locally, logged to the console
