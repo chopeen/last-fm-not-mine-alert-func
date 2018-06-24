@@ -47,10 +47,18 @@ Copy values from Azure to `local.settings.json`:
    4. Click `Manage` to navigate to https://app.sendgrid.com/ and get an API key from there
    5. Add the key to `local.settings.json`
 
-### Timer trigger - time zone
+### Timer trigger
 
 [CRON time zones](https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-timer#cron-time-zones)
 
 > The default time zone used with the CRON expressions is Coordinated Universal Time (UTC). 
 > To have your CRON expression based on another time zone, create an app setting for your 
 > function app named `WEBSITE_TIME_ZONE` (e.g. `Central European Standard Time`). 
+
+[CRON expressions](https://codehollow.com/2017/02/azure-functions-time-trigger-cron-cheat-sheet/)
+
+    {second} {minute} {hour} {day} {month} {day of the week}
+    
+    0 * * * * * 	every minute
+    0 */5 * * * * 	every 5 minutes
+    0 0 10 * * * 	every day at 10:00:00
