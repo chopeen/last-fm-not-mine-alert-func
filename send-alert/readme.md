@@ -15,7 +15,7 @@
 
 Copy from `local.settings.json` to Azure ("Application settings"):
 
-    func azure functionapp publish  --publish-local-settings
+    func azure functionapp publish <function-app-name> --publish-local-settings
 
 Copy from Azure to `local.settings.json`:
 
