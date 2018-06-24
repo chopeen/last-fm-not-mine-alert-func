@@ -58,7 +58,7 @@ Copy values from Azure to `local.settings.json`:
 [CRON expressions](https://codehollow.com/2017/02/azure-functions-time-trigger-cron-cheat-sheet/)
 
     {second} {minute} {hour} {day} {month} {day of the week}
-    
+
     0 * * * * * 	every minute
     0 */5 * * * * 	every 5 minutes
-    0 0 10 * * * 	every day at 10:00:00
+    0 0 14 * * * 	every day at 2 PM
