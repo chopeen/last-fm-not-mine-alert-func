@@ -1,4 +1,6 @@
-### Essence of [Code and test Azure Functions locally](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local):
+### Creating a new function
+
+[Code and test Azure Functions locally](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local)
 
     func init <function-project-name>
     func new
@@ -44,3 +46,11 @@ Copy values from Azure to `local.settings.json`:
       name - it cannot be renamed later)
    4. Click `Manage` to navigate to https://app.sendgrid.com/ and get an API key from there
    5. Add the key to `local.settings.json`
+
+### Timer trigger - time zone
+
+[CRON time zones](https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-timer#cron-time-zones)
+
+> The default time zone used with the CRON expressions is Coordinated Universal Time (UTC). 
+> To have your CRON expression based on another time zone, create an app setting for your 
+> function app named `WEBSITE_TIME_ZONE` (e.g. `Central European Standard Time`). 
