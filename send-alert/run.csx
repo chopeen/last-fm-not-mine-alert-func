@@ -79,25 +79,10 @@ private static SendGridMessage getAlertMessage(List<string> notMyArtistsPlayedRe
     // TODO: Plain content should be created automatically by stripping tags from HTML context
 
     // docs: https://github.com/sendgrid/sendgrid-csharp/blob/master/src/SendGrid/Helpers/Mail/MailHelper.cs#L31
-    var message = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);  
+    var message = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+    message.TemplateId = getLocalSetting("SendGridTemplateId");
 
     return message;
-}
-
-// docs: https://github.com/sendgrid/sendgrid-csharp/blob/master/examples/templates/templates.cs
-/*
-    string templateId = getLocalSetting("SendGridTemplateId");
-    var response = getEmailTemplate(templateId).Result;
-    Console.WriteLine(response.Body.ReadAsStringAsync().Result);
-    // Console.WriteLine(response.StatusCode);
-    // Console.WriteLine(response.Headers.ToString());
- */
-private static async Task<Response> getEmailTemplate(string templateId)
-{
-    var apiKey = getLocalSetting("SendGridKey");
-    var client = new SendGridClient(apiKey);
-    var task = await client.RequestAsync(method: SendGridClient.Method.GET, urlPath: "templates/" + templateId);
-    return task;
 }
 
 private static List<string> getRecentArtists(string recentTracksString)
