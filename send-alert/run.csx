@@ -61,8 +61,8 @@ private static SendGridMessage getAlertMessage(List<string> notMyArtistsPlayedRe
     EmailAddress to = MailHelper.StringToEmailAddress(getLocalSetting("EmailToAlert"));
     
     string subject = "No news";
-    string plainTextContent = "No mail. No plan. No suspicious scrobbles.";
-    string htmlContent = "No mail. No plan. <strong>No suspicious scrobbles.</strong>";
+    string plainTextContent = "No mail. No plan. No unexpected scrobbles.";
+    string htmlContent = "No mail. No plan. <strong>No unexpected scrobbles.</strong>";
 
     if (notMyArtistsPlayedRecently.Count() > 0)
     {
