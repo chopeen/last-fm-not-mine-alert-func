@@ -61,4 +61,5 @@ Copy values from Azure to `local.settings.json`:
 
     0 * * * * * 	every minute
     0 */5 * * * * 	every 5 minutes
+    0 0 */2 * * *   every 2 hours
     0 0 14 * * * 	every day at 2 PM
