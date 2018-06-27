@@ -44,14 +44,16 @@ public static void Run(TimerInfo timer, TraceWriter log, out SendGridMessage mes
         string.Format("Blacklisted artists:  {0} [{1}]", string.Join("; ", notMyArtists), notMyArtists.Count())
     );
 
-    bool needSendAlert = (notMyArtistsPlayedRecently.Count() > 0);
-
-    log.Info(
-        string.Format("Request processing finished - {0}alert sent.", needSendAlert ? "" : "no ")
-    );
-
-    // TODO: Only send an email when needed
-    message = getAlertMessage(notMyArtistsPlayedRecently);
+    if (notMyArtistsPlayedRecently.Count() > 0)
+    {
+        message = getAlertMessage(notMyArtistsPlayedRecently);
+        log.Info("Request processing finished - alert sent.");
+    }
+    else
+    {
+        message = null;
+        log.Info("Request processing finished - no alert needed.");
+    }
 }
 
 private static SendGridMessage getAlertMessage(List<string> notMyArtistsPlayedRecently)
