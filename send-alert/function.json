@@ -3,6 +3,7 @@
   "bindings": [
     {
       "schedule": "%TimerSchedule%",
+      "runOnStartup": true,
       "name": "timer",
       "type": "timerTrigger",
       "direction": "in"

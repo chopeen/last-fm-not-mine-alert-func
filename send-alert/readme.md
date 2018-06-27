@@ -1,4 +1,4 @@
-### Creating a new function
+## Creating a new function
 
 [Code and test Azure Functions locally](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local)
 
@@ -16,7 +16,7 @@
       --resource-group <resource-group-name> \
       --settings FUNCTIONS_EXTENSION_VERSION=beta
 
-### Migrating the application settings
+## Migrating the application settings
 
 Copy values from `local.settings.json` to "Application settings" in Azure (as part of application deployment):
 
@@ -26,12 +26,12 @@ Copy values from Azure to `local.settings.json`:
 
     func azure functionapp fetch-app-settings <function-app-name>
 
-### Working with JSON data
+## Working with JSON data
 
  - https://www.newtonsoft.com/json/help/html/QueryingLINQtoJSON.htm
  - https://www.newtonsoft.com/json/help/html/T_Newtonsoft_Json_Linq_JObject.htm
 
-### SendGrid email
+## SendGrid email
 
  - https://sendgrid.com/docs/Integrate/Code_Examples/v3_Mail/csharp.html
  - https://docs.microsoft.com/en-us/azure/sendgrid-dotnet-how-to-send-email
@@ -47,7 +47,7 @@ Copy values from Azure to `local.settings.json`:
    4. Click `Manage` to navigate to https://app.sendgrid.com/ and get an API key from there
    5. Add the key to `local.settings.json`
 
-### Timer trigger
+## Timer trigger
 
 [CRON time zones](https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-timer#cron-time-zones)
 
@@ -63,3 +63,10 @@ Copy values from Azure to `local.settings.json`:
     0 */2 * * * * 	every 2 minutes
     0 0 */2 * * *   every 2 hours
     0 0 14 * * * 	every day at 2 PM
+
+## function.json
+
+ - https://github.com/MicrosoftDocs/azure-docs/blob/master/articles/azure-functions/functions-bindings-timer.md#configuration - `%TimerSchedule%` 
+   used in `function.json` works fine, but is not defined in the [JSON schema](http://json.schemastore.org/function), so VS Code highlights it
+   as an error
+ - https://github.com/Azure/azure-functions-host/wiki/function.json
