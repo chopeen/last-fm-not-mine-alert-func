@@ -15,7 +15,6 @@ using Newtonsoft.Json.Linq;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
-// TODO: Move the CRON expression to settings to use different expressions for local and Azure
 // TODO: The alert email will more useful when it lists the played tracks (not only artists)
 
 public static void Run(TimerInfo timer, TraceWriter log, out SendGridMessage message)
