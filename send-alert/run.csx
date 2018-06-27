@@ -15,9 +15,19 @@ using Newtonsoft.Json.Linq;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
-// TODO: The alert email will more useful when it lists the played tracks (not only artists)
+
 // TODO: `runOnStartup` can be configured similar to `schedule` if it turns out it must be
 //       disabled in PROD to prevent the timer from firing twice
+//
+// TODO: The alert email will more useful when it lists the played tracks (not only artists)
+//
+// TODO: Don't alert about the same scrobbles twice
+//       1. `mbid + uts` seems to be a good return a unique scrobble ID
+//       2. Table storage will be useful.
+//
+// TODO: Is any old Last.fm API with `removeScrobble` still available?
+//       https://hackage.haskell.org/package/liblastfm-0.0.2.2/docs/Network-Lastfm-API-Library.html
+
 
 public static void Run(TimerInfo timer, TraceWriter log, out SendGridMessage message)
 {
