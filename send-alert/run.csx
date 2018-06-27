@@ -16,6 +16,8 @@ using SendGrid;
 using SendGrid.Helpers.Mail;
 
 // TODO: The alert email will more useful when it lists the played tracks (not only artists)
+// TODO: `runOnStartup` can be configured similar to `schedule` if it turns out it must be
+//       disabled in PROD to prevent the timer from firing twice
 
 public static void Run(TimerInfo timer, TraceWriter log, out SendGridMessage message)
 {
