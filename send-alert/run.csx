@@ -16,6 +16,7 @@ using SendGrid;
 using SendGrid.Helpers.Mail;
 
 // TODO: Move the CRON expression to settings to use different expressions for local and Azure
+// TODO: The alert email will more useful when it lists the played tracks (not only artists)
 
 public static void Run(TimerInfo timer, TraceWriter log, out SendGridMessage message)
 {
@@ -64,9 +65,10 @@ private static SendGridMessage getAlertMessage(List<string> notMyArtistsPlayedRe
     
     string subject = "Check the Last.fm history";
     
-    // TODO: List the artists along with the track names
-    // TODO: Format the list as bullets
-    string htmlContent = string.Format("The following artists were played recently: {0}.", string.Join("; ", notMyArtistsPlayedRecently));
+    string htmlContent = string.Format(
+        "The following artists were played recently: <ul><li>{0}</li></ul>.",
+        string.Join("</li><li>", notMyArtistsPlayedRecently)
+    );
     
     // TODO: Plain content should be created automatically by stripping tags from HTML context
     string plainTextContent = htmlContent;
