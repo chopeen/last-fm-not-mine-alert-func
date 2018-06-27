@@ -70,3 +70,9 @@ Copy values from Azure to `local.settings.json`:
    used in `function.json` works fine, but is not defined in the [JSON schema](http://json.schemastore.org/function), so VS Code highlights it
    as an error
  - https://github.com/Azure/azure-functions-host/wiki/function.json
+ - `name` vs `%name%` vs `{name}`:
+   - `"apiKey": "SendGridKey"` - the [schema](http://json.schemastore.org/function) explictly defines this `sendGridBinding` property as
+     _name of the app setting which contains your SendGrid api key_
+   - `"schedule": "%TimerSchedule%"` - reading value of an arbitrary app setting
+   - `"from": "{FromEmail}"` - I'm quoting the documentation below, but I have no idea how to specify the `FromEmail` value in the code
+     - _Most expressions are identified by wrapping them in curly braces. For example, in a queue trigger function, {queueTrigger} resolves to the queue message text. If the path property for a blob output binding is container/{queueTrigger} and the function is triggered by a queue message HelloWorld, a blob named HelloWorld is created._
