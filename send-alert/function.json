@@ -2,7 +2,8 @@
   "disabled": false,
   "bindings": [
     {
-      "schedule": "0 0 14 * * *",
+      "schedule": "%TimerSchedule%",
+      "runOnStartup": true,
       "name": "timer",
       "type": "timerTrigger",
       "direction": "in"

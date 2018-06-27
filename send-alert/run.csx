@@ -15,7 +15,7 @@ using Newtonsoft.Json.Linq;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
-// TODO: Move the CRON expression to settings to use different expressions for local and Azure
+// TODO: The alert email will more useful when it lists the played tracks (not only artists)
 
 public static void Run(TimerInfo timer, TraceWriter log, out SendGridMessage message)
 {
@@ -44,14 +44,16 @@ public static void Run(TimerInfo timer, TraceWriter log, out SendGridMessage mes
         string.Format("Blacklisted artists:  {0} [{1}]", string.Join("; ", notMyArtists), notMyArtists.Count())
     );
 
-    bool needSendAlert = (notMyArtistsPlayedRecently.Count() > 0);
-
-    log.Info(
-        string.Format("Request processing finished - {0}alert sent.", needSendAlert ? "" : "no ")
-    );
-
-    // TODO: Only send an email when needed
-    message = getAlertMessage(notMyArtistsPlayedRecently);
+    if (notMyArtistsPlayedRecently.Count() > 0)
+    {
+        message = getAlertMessage(notMyArtistsPlayedRecently);
+        log.Info("Request processing finished - alert sent.");
+    }
+    else
+    {
+        message = null;
+        log.Info("Request processing finished - no alert needed.");
+    }
 }
 
 private static SendGridMessage getAlertMessage(List<string> notMyArtistsPlayedRecently)
@@ -60,24 +62,16 @@ private static SendGridMessage getAlertMessage(List<string> notMyArtistsPlayedRe
     EmailAddress from = MailHelper.StringToEmailAddress(getLocalSetting("EmailFromAlert"));
     EmailAddress to = MailHelper.StringToEmailAddress(getLocalSetting("EmailToAlert"));
     
-    string subject = "No news";
-    string plainTextContent = "No mail. No plan. No unexpected scrobbles.";
-    string htmlContent = "No mail. No plan. <strong>No unexpected scrobbles.</strong>";
-
-    if (notMyArtistsPlayedRecently.Count() > 0)
-    {
-        // TODO: Use an email template
-        subject = "Check the Last.fm history";
-        // TODO: List the artists along with the track names
-        plainTextContent = string.Format(
-            "The following artists were played recently: {0}.",
-            string.Join("; ", notMyArtistsPlayedRecently)
-        );
-        htmlContent = plainTextContent;
-    }
-
+    string subject = "Check the Last.fm history";
+    
+    string htmlContent = string.Format(
+        "The following artists were played recently: <ul><li>{0}</li></ul>.",
+        string.Join("</li><li>", notMyArtistsPlayedRecently)
+    );
+    
     // TODO: Plain content should be created automatically by stripping tags from HTML context
-
+    string plainTextContent = htmlContent;
+    
     // docs: https://github.com/sendgrid/sendgrid-csharp/blob/master/src/SendGrid/Helpers/Mail/MailHelper.cs#L31
     var message = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
     message.TemplateId = getLocalSetting("SendGridTemplateId");
