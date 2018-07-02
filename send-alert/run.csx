@@ -27,7 +27,9 @@ using SendGrid.Helpers.Mail;
 //
 // TODO: Is any old Last.fm API with `removeScrobble` still available?
 //       https://hackage.haskell.org/package/liblastfm-0.0.2.2/docs/Network-Lastfm-API-Library.html
-
+//
+// TODO: The function execution takes ~2000ms - why so long? Log the time of communication
+//       with the Last.fm API.
 
 public static void Run(TimerInfo timer, TraceWriter log, out SendGridMessage message)
 {
