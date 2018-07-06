@@ -2,26 +2,26 @@
   "disabled": false,
   "bindings": [
     {
-      "authLevel": "function",
-      "name": "req",
       "type": "httpTrigger",
+      "name": "req",
       "direction": "in",
+      "authLevel": "function",
       "methods": [
         "get",
         "post"
       ]
     },
     {
-      "name": "$return",
       "type": "http",
+      "name": "$return",
       "direction": "out"
     },
     {
       "type": "table",
       "name": "notMyArtistsTable",
+      "direction": "in",
       "tableName": "NotMyArtists",
-      "connection": "AzureWebJobsStorage",
-      "direction": "in"
+      "connection": "AzureWebJobsStorage"
     }
   ]
 }
