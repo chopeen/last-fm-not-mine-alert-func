@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.WindowsAzure.Storage.Table;
 
+// TODO: Find a way to have fewer exit points in this function.
 
 public static IActionResult Run(HttpRequest req, CloudTable notMyArtistsTable, TraceWriter log)
 {
@@ -24,7 +25,8 @@ public static IActionResult Run(HttpRequest req, CloudTable notMyArtistsTable, T
         string artistName = req.Query["name"];
         if (string.IsNullOrEmpty(artistName))
         {
-            // TODO: Find a way to have fewer exit points in this function.
+            // TODO: This is not visible in the logs and Monitor shows a success. How should one exit 
+            //       to clearly manifest an error?
             return new BadRequestObjectResult("Artist name not specified on the query string.");
         }
 
