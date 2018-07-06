@@ -5,5 +5,7 @@
     "editor.minimap.enabled": false,
     "git.autofetch": true,
     // Warning about project created outside VS Code
-    "azureFunctions.showProjectWarning": false
+    "azureFunctions.showProjectWarning": false,
+    // "No of references" hint
+    "csharp.referencesCodeLens.enabled": false
 }
