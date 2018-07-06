@@ -24,9 +24,11 @@ public static IActionResult Run(HttpRequest req, CloudTable notMyArtistsTable, T
         string artistName = req.Query["name"];
         if (string.IsNullOrEmpty(artistName))
         {
+            // TODO: Find a way to have fewer exit points in this function.
             return new BadRequestObjectResult("Artist name not specified on the query string.");
         }
 
+        // TODO: Extract the INSERT operation into a dedicated function.
         var entity = new ArtistEntity()
         {
             RowKey = Guid.NewGuid().ToString(),
