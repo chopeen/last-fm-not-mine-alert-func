@@ -31,7 +31,9 @@ public static IActionResult Run(HttpRequest req, CloudTable notMyArtistsTable, T
         {
             RowKey = Guid.NewGuid().ToString(),
             PartitionKey = "Partition0",
-            ArtistName = artistName
+            ArtistName = artistName,
+            // TODO: Is there a way to store the normalized value without setting both properties?
+            ArtistNameNormalized = artistName
         };
     
         var operation = TableOperation.Insert(entity);
@@ -44,7 +46,7 @@ public static IActionResult Run(HttpRequest req, CloudTable notMyArtistsTable, T
             log.Info(string.Format("New artist inserted with key {0}.", entity.RowKey));
             return new OkObjectResult(entity);
         }
-        
+
         return new BadRequestObjectResult(string.Format("INSERT failed {0}.", artistName));
     }
 
