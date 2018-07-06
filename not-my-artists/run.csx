@@ -30,6 +30,7 @@ public static IActionResult Run(HttpRequest req, CloudTable notMyArtistsTable, T
         var entity = new ArtistEntity()
         {
             RowKey = Guid.NewGuid().ToString(),
+            PartitionKey = "Partition0",
             ArtistName = name
         };
     
