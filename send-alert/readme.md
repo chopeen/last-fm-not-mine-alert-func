@@ -2,7 +2,10 @@
 
 [Code and test Azure Functions locally](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local)
 
+    # initialize a new Function App project
     func init <function-project-name>
+
+    # add a function
     func new
 
     # execute locally
