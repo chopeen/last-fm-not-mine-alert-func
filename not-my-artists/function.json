@@ -15,6 +15,13 @@
       "name": "$return",
       "type": "http",
       "direction": "out"
+    },
+    {
+      "type": "table",
+      "name": "notMyArtistsTable",
+      "tableName": "NotMyArtists",
+      "connection": "AzureWebJobsStorage",
+      "direction": "in"
     }
   ]
 }
