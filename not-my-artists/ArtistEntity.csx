@@ -4,18 +4,11 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 public class ArtistEntity : TableEntity
 {
-    private string _artistNameNormalized;
-
     public string ArtistName { get; set; }
-    public string ArtistNameNormalized
+    public string ArtistNameNormalized { get; set; }
+
+    public static string Normalize(string artistName)
     {
-        get
-        {
-            return this._artistNameNormalized;
-        }
-        set
-        {
-            this._artistNameNormalized = value.ToLower().Trim();
-        }
+        return artistName.ToLower().Trim();
     }
 }
