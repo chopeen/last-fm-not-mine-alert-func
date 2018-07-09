@@ -39,9 +39,8 @@ public static void Run(TimerInfo timer, TraceWriter log, out SendGridMessage mes
     string recentTracksString = "";
     using (HttpClient client = new HttpClient())
     {
-        // using GetStringAsync in a way that makes a synchronous call; it simplifies the code,
-        //   but let's see how soon it becomes a problem
-        // TODO: Use await here  https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/async/
+        // no work to be done during GetStringAsync execution, so waiting synchronously for an async method
+        //   (the `await` operator can only be used within an async method; more: https://goo.gl/MPPkUv)
         recentTracksString = client.GetStringAsync(getRecentTracksUri()).Result;
     }
 
