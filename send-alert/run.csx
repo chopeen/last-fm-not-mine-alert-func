@@ -135,9 +135,8 @@ private static string getLocalSetting(string name)
     string value = Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.Process);
     if (string.IsNullOrEmpty(value))
     {
-        throw new NullReferenceException(
-            string.Format("Environment variable {0} has no value or is not defined.", name)
-        );
+        // docs: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/tokens/interpolated
+        throw new NullReferenceException($"Environment variable {name} has no value or is not defined.");
     }
     return value;
 }
