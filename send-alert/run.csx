@@ -78,10 +78,8 @@ private static SendGridMessage getAlertMessage(List<string> notMyArtistsPlayedRe
     
     string subject = "Check the Last.fm history";
     
-    string htmlContent = string.Format(
-        "The following artists were played recently: <ul><li>{0}</li></ul>.",
-        string.Join("</li><li>", notMyArtistsPlayedRecently)
-    );
+    string htmlListItems = string.Join("</li><li>", notMyArtistsPlayedRecently);
+    string htmlContent = $"The following artists were played recently: <ul><li>{htmlListItems}</li></ul>.";
     
     // TODO: Plain content should be created automatically by stripping tags from HTML context
     string plainTextContent = htmlContent;
