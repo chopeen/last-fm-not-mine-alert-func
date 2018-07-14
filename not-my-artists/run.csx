@@ -25,8 +25,6 @@ public static IActionResult Run(HttpRequest req, CloudTable notMyArtistsTable, T
         string artistName = req.Query["name"];
         if (string.IsNullOrEmpty(artistName))
         {
-            // TODO: When running locally, this message is shown as part of the `curl` output.
-            //       After deploying to production, only a generic "Bad Request" is returned. Why?
             return new BadRequestObjectResult("Artist name not specified on the query string.");
         }
 
