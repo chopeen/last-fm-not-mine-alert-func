@@ -20,15 +20,10 @@ public static IActionResult Run(HttpRequest req, CloudTable notMyArtistsTable, T
 {
     log.Info($"{req.Method} request processing started.");
 
-    // always insert new value; duplicates may result
+    string artistName = req.Query["name"];
+
     if (req.Method == "POST")
     {
-        string artistName = req.Query["name"];
-        if (string.IsNullOrEmpty(artistName))
-        {
-            return new BadRequestObjectResult("Artist name not specified on the query string.");
-        }
-
         // TODO: Check result and log success or failure
         //       example: log.Info(string.Format("New artist inserted with key {0}.", entity.RowKey));
         return InsertOne(notMyArtistsTable, artistName);
@@ -43,8 +38,14 @@ public static IActionResult Run(HttpRequest req, CloudTable notMyArtistsTable, T
     return new BadRequestObjectResult("Code path not yet implemented.");
 }
 
+// Remark: This function always insert a new value; it may generate duplicates
 public static IActionResult InsertOne(CloudTable notMyArtistsTable, string artistName)
 {
+        if (string.IsNullOrEmpty(artistName))
+        {
+            return new BadRequestObjectResult("Artist name not specified on the query string.");
+        }
+
         var entity = new ArtistEntity()
         {
             RowKey = Guid.NewGuid().ToString(),
