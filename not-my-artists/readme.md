@@ -10,6 +10,13 @@ it could also  be used to fetch the data. However, for now I will stick to the i
 ([function.json](https://github.com/thiagospassos/azfunc-crud/blob/cb86e2aa65fc7c18e3a21f9b8c5b5dfc953640ab/customer/function.json),
  [run.csx](https://github.com/thiagospassos/azfunc-crud/blob/cb86e2aa65fc7c18e3a21f9b8c5b5dfc953640ab/customer/run.csx)).
 
+### Error *Can't bind Table to type 'System.Linq.IQueryable* (see 761e67e97c6f3caf1631a5d59bd443589ff6f193)
+
+https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-storage-table#input---c-example-2
+
+> IQueryable isn't supported in the Functions v2 runtime. An alternative is to use a CloudTable paramName method
+> parameter to read the table by using the Azure Storage SDK.
+
 ## POST without sending data
 
     curl -X POST -d {} http://localhost:7071/api/not-my-artists?name=Test2
