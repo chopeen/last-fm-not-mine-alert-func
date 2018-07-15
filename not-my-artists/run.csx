@@ -22,16 +22,14 @@ public static IActionResult Run(HttpRequest req, CloudTable notMyArtistsTable, T
 
     string artistName = req.Query["name"];
 
+    // TODO: Check result and log success or failure for all paths
+    //       example: log.Info(string.Format("New artist inserted with key {0}.", entity.RowKey));
     if (req.Method == "POST")
     {
-        // TODO: Check result and log success or failure
-        //       example: log.Info(string.Format("New artist inserted with key {0}.", entity.RowKey));
         return InsertOne(notMyArtistsTable, artistName);
-
     }
     else if (req.Method == "GET")
     {
-        // TODO: Check result and log success or failure
         return GetAll(notMyArtistsTable);
     }
 
