@@ -56,6 +56,7 @@ public static IActionResult InsertOne(CloudTable notMyArtistsTable, string artis
         var operation = TableOperation.Insert(entity);
         var task = notMyArtistsTable.ExecuteAsync(operation);
 
+        // TODO: Would it be possible to use EnsureSuccessStatusCode here, when the execution is synchrounous?
         int statusCode = task.Result.HttpStatusCode;
         bool success = statusCode >= 200 && statusCode < 300;
         if (success)
