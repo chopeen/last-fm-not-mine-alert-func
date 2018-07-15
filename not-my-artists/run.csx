@@ -37,7 +37,7 @@ public static IActionResult Run(HttpRequest req, CloudTable notMyArtistsTable, T
     else if (req.Method == "GET")
     {
         // TODO: Check result and log success or failure
-        return GetArtists(notMyArtistsTable);
+        return GetAll(notMyArtistsTable);
     }
 
     return new BadRequestObjectResult("Code path not yet implemented.");
@@ -66,7 +66,7 @@ public static IActionResult InsertOne(CloudTable notMyArtistsTable, string artis
         return new BadRequestObjectResult(string.Format("INSERT failed {0}.", artistName));
 }
 
-public static IActionResult GetArtists(CloudTable notMyArtistsTable)
+public static IActionResult GetAll(CloudTable notMyArtistsTable)
 {
     // segment contains up to 1,000 entities, so no need to worry about query continuation for now
     var segmentResult = notMyArtistsTable.ExecuteQuerySegmentedAsync(new TableQuery<ArtistEntity>(), null).Result;
