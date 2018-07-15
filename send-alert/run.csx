@@ -108,6 +108,8 @@ private static List<string> getRecentArtists(string recentTracksString)
 
 private static List<string> getNotMyArtists()
 {
+    // TODO: Replace with /api/not-my-artists?format=csv
+    //       Should the API be returning a delimited string or rather a list to get rid of this `Split(';').ToList()`?
     return getLocalSetting("NotMyArtists")
         .Split(';')
         .ToList()
