@@ -73,8 +73,8 @@ private static IActionResult InsertOne(CloudTable notMyArtistsTable, string arti
 
 private static IActionResult GetAll(CloudTable notMyArtistsTable)
 {
-    var result = FetchTableData(notMyArtistsTable);
-    return new OkObjectResult(result);
+    var allArtists = FetchTableData(notMyArtistsTable);
+    return new OkObjectResult(allArtists);
 }
 
 private static IActionResult GetAllAsDelimitedString(CloudTable notMyArtistsTable)
