@@ -56,7 +56,7 @@ private static IActionResult InsertOne(CloudTable notMyArtistsTable, string arti
             ArtistName = artistName,
             ArtistNameNormalized = ArtistEntity.Normalize(artistName)
         };
-    
+
         var operation = TableOperation.Insert(entity);
         var task = notMyArtistsTable.ExecuteAsync(operation);
 
@@ -73,12 +73,20 @@ private static IActionResult InsertOne(CloudTable notMyArtistsTable, string arti
 
 private static IActionResult GetAll(CloudTable notMyArtistsTable)
 {
-    // segment contains up to 1,000 entities, so no need to worry about query continuation for now
-    var segmentResult = notMyArtistsTable.ExecuteQuerySegmentedAsync(new TableQuery<ArtistEntity>(), null).Result;
-    return new OkObjectResult(segmentResult.ToList());
+    var result = FetchTableData(notMyArtistsTable);
+    return new OkObjectResult(result);
 }
 
 private static IActionResult GetAllAsDelimitedString(CloudTable notMyArtistsTable)
 {
     return new OkObjectResult("Not yet implemented");
+}
+
+// TODO: Segment contains up to 1,000 entities - implement query continuation
+private static List<ArtistEntity> FetchTableData(CloudTable notMyArtistsTable)
+{
+    var selectAllQuery = new TableQuery<ArtistEntity>();
+    var segmentResult = notMyArtistsTable.ExecuteQuerySegmentedAsync(selectAllQuery, null).Result;
+    List<ArtistEntity> segmentList = segmentResult.ToList<ArtistEntity>();
+    return segmentList;
 }
