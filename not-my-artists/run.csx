@@ -21,6 +21,7 @@ public static IActionResult Run(HttpRequest req, CloudTable notMyArtistsTable, T
     log.Info($"{req.Method} request processing started.");
 
     string artistName = req.Query["name"];
+    string resultFormat = req.Query["format"];
 
     // TODO: Check result and log success or failure for all paths
     //       example: log.Info(string.Format("New artist inserted with key {0}.", entity.RowKey));
@@ -28,9 +29,13 @@ public static IActionResult Run(HttpRequest req, CloudTable notMyArtistsTable, T
     {
         return InsertOne(notMyArtistsTable, artistName);
     }
-    else if (req.Method == "GET")
+    else if (req.Method == "GET" && string.IsNullOrEmpty(resultFormat))
     {
         return GetAll(notMyArtistsTable);
+    }
+    else if (req.Method == "GET" && resultFormat == "csv")
+    {
+        return GetAllAsDelimitedString(notMyArtistsTable);
     }
 
     return new BadRequestObjectResult("Code path not yet implemented.");
@@ -71,4 +76,9 @@ public static IActionResult GetAll(CloudTable notMyArtistsTable)
     // segment contains up to 1,000 entities, so no need to worry about query continuation for now
     var segmentResult = notMyArtistsTable.ExecuteQuerySegmentedAsync(new TableQuery<ArtistEntity>(), null).Result;
     return new OkObjectResult(segmentResult.ToList());
+}
+
+public static IActionResult GetAllAsDelimitedString(CloudTable notMyArtistsTable)
+{
+    return new OkObjectResult("Not yet implemented");
 }
