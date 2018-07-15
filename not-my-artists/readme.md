@@ -14,11 +14,13 @@ This didn't work (see the error below), I'm going back to using one table (i.e. 
 (as previously) and data retrieval (`ExecuteQuery` gave me *'CloudTable' does not contain a definition for 'ExecuteQuery'*,
 but its sibling `ExecuteQuerySegmentedAsync` works like a charm - [example](https://gist.github.com/MrMikeFloyd/dacb049eaa1d35bd4f93eb02728a9f39)).
 
-### Error *Can't bind Table to type 'System.Linq.IQueryable* (see 761e67e97c6f3caf1631a5d59bd443589ff6f193)
+### Error *Can't bind Table to type 'System.Linq.IQueryable* 
 
-https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-storage-table#input---c-example-2
+For details, see [761e67e](https://github.com/chopeen/last-fm-not-mine-alert-func/commit/761e67e97c6f3caf1631a5d59bd443589ff6f193).
 
-> IQueryable isn't supported in the Functions v2 runtime. An alternative is to use a CloudTable paramName method
+[This](https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-storage-table#input---c-example-2) may explain the reason:
+
+> IQueryable isn't supported in the Functions v2 runtime. An alternative is to use a CloudTable paramName method  
 > parameter to read the table by using the Azure Storage SDK.
 
 ## POST without sending data
