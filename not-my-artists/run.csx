@@ -17,7 +17,7 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 public static IActionResult Run(HttpRequest req, CloudTable notMyArtistsTable, TraceWriter log)
 {
-    log.Info("Request processing started.");
+    log.Info($"{req.Method} request processing started.");
 
     // always insert new value; duplicates may result
     if (req.Method == "POST")
@@ -50,6 +50,17 @@ public static IActionResult Run(HttpRequest req, CloudTable notMyArtistsTable, T
 
         return new BadRequestObjectResult(string.Format("INSERT failed {0}.", artistName));
     }
+    else if (req.Method == "GET")
+    {
+        return GetArtists(notMyArtistsTable);
+    }
 
     return new BadRequestObjectResult("Code path not yet implemented.");
+}
+
+public static IActionResult GetArtists(CloudTable notMyArtistsTable)
+{
+    var foo = notMyArtistsOperations as IQueryable<ArtistEntity>;
+    Console.WriteLine(foo.ToString());
+    return new OkObjectResult(foo.ToList());
 }
