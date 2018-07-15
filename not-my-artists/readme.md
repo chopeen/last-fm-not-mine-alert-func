@@ -28,4 +28,4 @@ https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-storag
 ## `HttpTrigger` does not return response content properly
 
 When running locally, message from `BadRequestObjectResult` is displayed in `curl`'s output. After deploying to production,
-only a generic "Bad Request" is returned. This is a known problem - https://stackoverflow.com/q/51221375/95.
+only a generic BadRequest is returned. This is a [known problem](https://stackoverflow.com/q/51221375/95).
