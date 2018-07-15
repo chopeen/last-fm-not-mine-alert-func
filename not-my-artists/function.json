@@ -18,8 +18,8 @@
     },
     {
       "type": "table",
-      "name": "notMyArtistsTable",
-      "direction": "in",
+      "name": "notMyArtistsOperations",
+      "direction": "out",
       "tableName": "NotMyArtists",
       "connection": "AzureWebJobsStorage"
     }

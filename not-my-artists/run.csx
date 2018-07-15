@@ -15,7 +15,7 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 // TODO: Find a way to have fewer exit points in this function.
 
-public static IActionResult Run(HttpRequest req, CloudTable notMyArtistsTable, TraceWriter log)
+public static IActionResult Run(HttpRequest req, CloudTable notMyArtistsOperations, TraceWriter log)
 {
     log.Info($"{req.Method} request processing started.");
 
@@ -38,7 +38,7 @@ public static IActionResult Run(HttpRequest req, CloudTable notMyArtistsTable, T
         };
     
         var operation = TableOperation.Insert(entity);
-        var task = notMyArtistsTable.ExecuteAsync(operation);
+        var task = notMyArtistsOperations.ExecuteAsync(operation);
 
         int statusCode = task.Result.HttpStatusCode;
         bool success = statusCode >= 200 && statusCode < 300;
@@ -52,7 +52,7 @@ public static IActionResult Run(HttpRequest req, CloudTable notMyArtistsTable, T
     }
     else if (req.Method == "GET")
     {
-        return GetArtists(notMyArtistsTable);
+        return GetArtists(notMyArtistsOperations);
     }
 
     return new BadRequestObjectResult("Code path not yet implemented.");
@@ -60,7 +60,7 @@ public static IActionResult Run(HttpRequest req, CloudTable notMyArtistsTable, T
 
 public static IActionResult GetArtists(CloudTable notMyArtistsTable)
 {
-    var foo = notMyArtistsOperations as IQueryable<ArtistEntity>;
+    var foo = notMyArtistsTable as IQueryable<ArtistEntity>;
     Console.WriteLine(foo.ToString());
     return new OkObjectResult(foo.ToList());
 }
