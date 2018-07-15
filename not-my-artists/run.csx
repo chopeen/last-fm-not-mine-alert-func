@@ -11,11 +11,12 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 
 // TODO: Find a way to have fewer exit points in this function.
 
-public static IActionResult Run(HttpRequest req, IQueryable<ArtistEntity> notMyArtistsData, CloudTable notMyArtistsOperations, TraceWriter log)
+public static IActionResult Run(HttpRequest req, CloudTable notMyArtistsTable, TraceWriter log)
 {
     log.Info($"{req.Method} request processing started.");
 
@@ -38,7 +39,7 @@ public static IActionResult Run(HttpRequest req, IQueryable<ArtistEntity> notMyA
         };
     
         var operation = TableOperation.Insert(entity);
-        var task = notMyArtistsOperations.ExecuteAsync(operation);
+        var task = notMyArtistsTable.ExecuteAsync(operation);
 
         int statusCode = task.Result.HttpStatusCode;
         bool success = statusCode >= 200 && statusCode < 300;
@@ -52,7 +53,7 @@ public static IActionResult Run(HttpRequest req, IQueryable<ArtistEntity> notMyA
     }
     else if (req.Method == "GET")
     {
-        return GetArtists(notMyArtistsOperations);
+        return GetArtists(notMyArtistsTable);
     }
 
     return new BadRequestObjectResult("Code path not yet implemented.");
@@ -60,7 +61,7 @@ public static IActionResult Run(HttpRequest req, IQueryable<ArtistEntity> notMyA
 
 public static IActionResult GetArtists(CloudTable notMyArtistsTable)
 {
-    var foo = notMyArtistsTable as IQueryable<ArtistEntity>;
-    Console.WriteLine(foo.ToString());
-    return new OkObjectResult(foo.ToList());
+    // segment contains up to 1,000 entities, so no need to worry about query continuation for now
+    var segmentResult = notMyArtistsTable.ExecuteQuerySegmentedAsync(new TableQuery<ArtistEntity>(), null).Result;
+    return new OkObjectResult(segmentResult.ToList());
 }
