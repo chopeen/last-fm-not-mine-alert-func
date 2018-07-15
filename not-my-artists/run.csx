@@ -79,7 +79,17 @@ private static IActionResult GetAll(CloudTable notMyArtistsTable)
 
 private static IActionResult GetAllAsDelimitedString(CloudTable notMyArtistsTable)
 {
-    return new OkObjectResult("Not yet implemented");
+    List<ArtistEntity> allArtists = FetchTableData(notMyArtistsTable);
+
+    List<string> distinctNormalizedNames = allArtists.
+        GroupBy(ae => ae.ArtistNameNormalized).
+        Select(grp => grp.First().ArtistNameNormalized).
+        OrderBy(str => str).
+        ToList();
+
+    string delimitedNormalizedNames = string.Join(";", distinctNormalizedNames);
+
+    return new OkObjectResult(delimitedNormalizedNames);
 }
 
 // TODO: Segment contains up to 1,000 entities - implement query continuation
