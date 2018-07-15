@@ -29,7 +29,22 @@ public static IActionResult Run(HttpRequest req, CloudTable notMyArtistsTable, T
             return new BadRequestObjectResult("Artist name not specified on the query string.");
         }
 
-        // TODO: Extract the INSERT operation into a dedicated function.
+        // TODO: Check result and log success or failure
+        //       example: log.Info(string.Format("New artist inserted with key {0}.", entity.RowKey));
+        return InsertOne(notMyArtistsTable, artistName);
+
+    }
+    else if (req.Method == "GET")
+    {
+        // TODO: Check result and log success or failure
+        return GetArtists(notMyArtistsTable);
+    }
+
+    return new BadRequestObjectResult("Code path not yet implemented.");
+}
+
+public static IActionResult InsertOne(CloudTable notMyArtistsTable, string artistName)
+{
         var entity = new ArtistEntity()
         {
             RowKey = Guid.NewGuid().ToString(),
@@ -45,18 +60,10 @@ public static IActionResult Run(HttpRequest req, CloudTable notMyArtistsTable, T
         bool success = statusCode >= 200 && statusCode < 300;
         if (success)
         {
-            log.Info(string.Format("New artist inserted with key {0}.", entity.RowKey));
             return new OkObjectResult(entity);
         }
 
         return new BadRequestObjectResult(string.Format("INSERT failed {0}.", artistName));
-    }
-    else if (req.Method == "GET")
-    {
-        return GetArtists(notMyArtistsTable);
-    }
-
-    return new BadRequestObjectResult("Code path not yet implemented.");
 }
 
 public static IActionResult GetArtists(CloudTable notMyArtistsTable)
