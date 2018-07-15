@@ -42,7 +42,7 @@ public static IActionResult Run(HttpRequest req, CloudTable notMyArtistsTable, T
 }
 
 // Remark: This function always insert a new value; it may generate duplicates
-public static IActionResult InsertOne(CloudTable notMyArtistsTable, string artistName)
+private static IActionResult InsertOne(CloudTable notMyArtistsTable, string artistName)
 {
         if (string.IsNullOrEmpty(artistName))
         {
@@ -71,14 +71,14 @@ public static IActionResult InsertOne(CloudTable notMyArtistsTable, string artis
         return new BadRequestObjectResult(string.Format("INSERT failed {0}.", artistName));
 }
 
-public static IActionResult GetAll(CloudTable notMyArtistsTable)
+private static IActionResult GetAll(CloudTable notMyArtistsTable)
 {
     // segment contains up to 1,000 entities, so no need to worry about query continuation for now
     var segmentResult = notMyArtistsTable.ExecuteQuerySegmentedAsync(new TableQuery<ArtistEntity>(), null).Result;
     return new OkObjectResult(segmentResult.ToList());
 }
 
-public static IActionResult GetAllAsDelimitedString(CloudTable notMyArtistsTable)
+private static IActionResult GetAllAsDelimitedString(CloudTable notMyArtistsTable)
 {
     return new OkObjectResult("Not yet implemented");
 }
