@@ -110,6 +110,15 @@ private static List<string> getNotMyArtists()
 {
     // TODO: Replace with /api/not-my-artists?format=csv
     //       Should the API be returning a delimited string or rather a list to get rid of this `Split(';').ToList()`?
+
+    using (HttpClient client = new HttpClient())
+    {
+        client.BaseAddress = new Uri(getFunctionBaseUrl());
+
+        string notMyArtistsUri = "api/not-my-artists?format=csv";
+        string notMyArtistsDelimited = client.GetStringAsync(notMyArtistsUri).Result;
+    }
+
     return getLocalSetting("NotMyArtists")
         .Split(';')
         .ToList()
@@ -117,6 +126,23 @@ private static List<string> getNotMyArtists()
             x => x.ToLower().Trim()
             )
         .ToList();
+}
+
+private static string getFunctionBaseUrl()
+{
+    string functionHost = getLocalSetting("WEBSITE_HOSTNAME");
+    string allZeros = "0.0.0.0";
+
+    // HACK: Workaround for error during local execution:
+    //         System.Net.NameResolution: IPv4 address 0.0.0.0 and IPv6 address ::0 are unspecified addresses that cannot be used as a target address.
+    bool localExecution = functionHost.StartsWith(allZeros);
+    if (localExecution)
+    {
+        functionHost = functionHost.Replace(allZeros, "localhost");
+        return $"http://{functionHost}";
+    }
+    
+    return $"https://{functionHost}";
 }
 
 private static string getRecentTracksUri()
