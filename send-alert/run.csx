@@ -149,7 +149,7 @@ private static string getRecentTracksUri()
 {
     // TODO: Is is enough to fetch only 1 page of results?
     return string.Format(
-        "http://ws.audioscrobbler.com/2.0/?method={0}&user={1}&api_key={2}&format=json",
+        "https://ws.audioscrobbler.com/2.0/?method={0}&user={1}&api_key={2}&format=json",
         "user.getrecenttracks",
         getLocalSetting("LastFmUser"),
         getLocalSetting("LastFmKey")
