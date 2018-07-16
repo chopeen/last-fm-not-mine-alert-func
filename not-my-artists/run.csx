@@ -14,8 +14,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 
-// TODO: Find a way to have fewer exit points in this function.
-
 public static IActionResult Run(HttpRequest req, CloudTable notMyArtistsTable, TraceWriter log)
 {
     log.Info($"{req.Method} request processing started.");
