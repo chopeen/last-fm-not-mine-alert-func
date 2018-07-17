@@ -111,29 +111,24 @@ private static List<string> getNotMyArtists()
     // TODO: Replace with /api/not-my-artists?format=csv
     //       Should the API be returning a delimited string or rather a list to get rid of this `Split(';').ToList()`?
 
-    /*
-
-    When running functions locally, authorization is disabled, so the code below works without `x-functions-key`.
-    In production, the auth key must be specified, even for function within the same Function App.
-
-    TOCHECK: Do I need to store the key in Application Settings or the Timer read it from the HTTP Func? (Probably not.)
+    // TOCHECK: Can the Timer read the function key from "Function / Manage"? (Probably not.)
 
     using (HttpClient client = new HttpClient())
     {
         client.BaseAddress = new Uri(getFunctionBaseUrl());
+        client.DefaultRequestHeaders.Add("x-functions-key", getLocalSetting("NotMyArtistsApiKey"));
 
         string notMyArtistsUri = "api/not-my-artists?format=csv";
         string notMyArtistsDelimited = client.GetStringAsync(notMyArtistsUri).Result;
-    }
-     */
 
-    return getLocalSetting("NotMyArtists")
-        .Split(';')
-        .ToList()
-        .Select(
-            x => x.ToLower().Trim()
-            )
-        .ToList();
+        return notMyArtistsDelimited
+            .Split(';')
+            .ToList()
+            .Select(
+                x => x.ToLower().Trim()
+                )
+            .ToList();
+    }
 }
 
 private static string getFunctionBaseUrl()
