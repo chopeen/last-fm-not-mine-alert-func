@@ -75,15 +75,15 @@ private static SendGridMessage getAlertMessage(List<string> notMyArtistsPlayedRe
     // docs: https://github.com/sendgrid/sendgrid-csharp/blob/master/src/SendGrid/Helpers/Mail/MailHelper.cs#L137
     EmailAddress from = MailHelper.StringToEmailAddress(getLocalSetting("EmailFromAlert"));
     EmailAddress to = MailHelper.StringToEmailAddress(getLocalSetting("EmailToAlert"));
-    
+
     string subject = "Check the Last.fm history";
-    
+
     string htmlListItems = string.Join("</li><li>", notMyArtistsPlayedRecently);
     string htmlContent = $"The following artists were played recently: <ul><li>{htmlListItems}</li></ul>.";
-    
+
     // TODO: Plain content should be created automatically by stripping tags from HTML context
     string plainTextContent = htmlContent;
-    
+
     // docs: https://github.com/sendgrid/sendgrid-csharp/blob/master/src/SendGrid/Helpers/Mail/MailHelper.cs#L31
     var message = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
     message.TemplateId = getLocalSetting("SendGridTemplateId");
@@ -108,9 +108,6 @@ private static List<string> getRecentArtists(string recentTracksString)
 
 private static List<string> getNotMyArtists()
 {
-    // TODO: Replace with /api/not-my-artists?format=csv
-    //       Should the API be returning a delimited string or rather a list to get rid of this `Split(';').ToList()`?
-
     // TOCHECK: Can the Timer read the function key from "Function / Manage"? (Probably not.)
 
     using (HttpClient client = new HttpClient())
@@ -118,16 +115,9 @@ private static List<string> getNotMyArtists()
         client.BaseAddress = new Uri(getFunctionBaseUrl());
         client.DefaultRequestHeaders.Add("x-functions-key", getLocalSetting("NotMyArtistsApiKey"));
 
-        string notMyArtistsUri = "api/not-my-artists?format=csv";
-        string notMyArtistsDelimited = client.GetStringAsync(notMyArtistsUri).Result;
+        string delimitedNormalizedNames = client.GetStringAsync("api/not-my-artists?format=csv").Result;
 
-        return notMyArtistsDelimited
-            .Split(';')
-            .ToList()
-            .Select(
-                x => x.ToLower().Trim()
-                )
-            .ToList();
+        return new List<string>(delimitedNormalizedNames.Split(';'));
     }
 }
 
@@ -144,7 +134,7 @@ private static string getFunctionBaseUrl()
         functionHost = functionHost.Replace(allZeros, "localhost");
         return $"http://{functionHost}";
     }
-    
+
     return $"https://{functionHost}";
 }
 
