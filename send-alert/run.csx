@@ -48,9 +48,6 @@ public static void Run(TimerInfo timer, TraceWriter log, out SendGridMessage mes
     var notMyArtists = getNotMyArtists();
     var notMyArtistsPlayedRecently = recentArtists.Intersect(notMyArtists).ToList();
 
-    // debugging helper
-    // notMyArtistsPlayedRecently.ToList().ForEach(x => Console.WriteLine(x));
-
     log.Info(
         string.Format("Recent artists:       {0} [{1}]", string.Join("; ", recentArtists), recentArtists.Count())
     );
@@ -106,10 +103,11 @@ private static List<string> getRecentArtists(string recentTracksString)
         .ToList();
 }
 
+
+// TOCHECK: Can the Timer read the function key from "Function / Manage"? (Probably not.)
+//          This way the setting `NotMyArtistsApiKey` would not be necessary.
 private static List<string> getNotMyArtists()
 {
-    // TOCHECK: Can the Timer read the function key from "Function / Manage"? (Probably not.)
-
     using (HttpClient client = new HttpClient())
     {
         client.BaseAddress = new Uri(getFunctionBaseUrl());
