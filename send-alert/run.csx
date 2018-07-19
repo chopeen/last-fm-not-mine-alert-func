@@ -84,8 +84,6 @@ private static string getRecentTracksJson(out string logMessage)
     {
         var stopwatch = System.Diagnostics.Stopwatch.StartNew();
 
-        // no work to be done during GetStringAsync execution, so waiting synchronously for an async method
-        //   (the `await` operator can only be used within an async method; more: https://goo.gl/MPPkUv)
         string apiUrl = getRecentTracksUrl(limit: 200, page: 1);
         string result = client.GetStringAsync(apiUrl).Result;
 
