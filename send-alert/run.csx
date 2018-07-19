@@ -33,19 +33,12 @@ public static void Run(TimerInfo timer, TraceWriter log, out SendGridMessage mes
     // when executed locally, logged to the console
     log.Info("Request processing started.");
 
-    string recentTracksString = "";
-    using (HttpClient client = new HttpClient())
-    {
-        var stopwatch = System.Diagnostics.Stopwatch.StartNew();
-
-        // no work to be done during GetStringAsync execution, so waiting synchronously for an async method
-        //   (the `await` operator can only be used within an async method; more: https://goo.gl/MPPkUv)
-        recentTracksString = client.GetStringAsync(getRecentTracksUri()).Result;
-
-        log.Info($"Communication with the Last.fm API completed in {stopwatch.ElapsedMilliseconds} ms.");
-    }
-
-    var recentArtists = getRecentArtists(recentTracksString);
+    // TODO: How to change the scope of `log` to global?
+    string logMessage;
+    string recentTracksJson = getRecentTracksJson(out logMessage);
+    log.Info(logMessage);
+ 
+    var recentArtists = getRecentArtists(recentTracksJson);
     var notMyArtists = getNotMyArtists();
     var notMyArtistsPlayedRecently = recentArtists.Intersect(notMyArtists).ToList();
 
@@ -83,6 +76,22 @@ private static SendGridMessage getAlertMessage(List<string> notMyArtistsPlayedRe
     message.TemplateId = getLocalSetting("SendGridTemplateId");
 
     return message;
+}
+
+private static string getRecentTracksJson(out string logMessage)
+{
+    using (HttpClient client = new HttpClient())
+    {
+        var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+
+        // no work to be done during GetStringAsync execution, so waiting synchronously for an async method
+        //   (the `await` operator can only be used within an async method; more: https://goo.gl/MPPkUv)
+        string result = client.GetStringAsync(getRecentTracksUri()).Result;
+
+        logMessage = $"Communication with the Last.fm API completed in {stopwatch.ElapsedMilliseconds} ms.";
+
+        return result;
+    }
 }
 
 private static List<string> getRecentArtists(string recentTracksString)
