@@ -49,12 +49,8 @@ public static void Run(TimerInfo timer, TraceWriter log, out SendGridMessage mes
     var notMyArtists = getNotMyArtists();
     var notMyArtistsPlayedRecently = recentArtists.Intersect(notMyArtists).ToList();
 
-    log.Info(
-        string.Format("Recent artists:       {0} [{1}]", string.Join("; ", recentArtists), recentArtists.Count())
-    );
-    log.Info(
-        string.Format("Blacklisted artists:  {0} [{1}]", string.Join("; ", notMyArtists), notMyArtists.Count())
-    );
+    log.Info(string.Format("Recent artists:       {0} [{1}]", string.Join("; ", recentArtists), recentArtists.Count()));
+    log.Info(string.Format("Blacklisted artists:  {0} [{1}]", string.Join("; ", notMyArtists), notMyArtists.Count()));
 
     if (notMyArtistsPlayedRecently.Count() > 0)
     {
