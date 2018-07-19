@@ -86,7 +86,7 @@ private static string getRecentTracksJson(out string logMessage)
 
         // no work to be done during GetStringAsync execution, so waiting synchronously for an async method
         //   (the `await` operator can only be used within an async method; more: https://goo.gl/MPPkUv)
-        string result = client.GetStringAsync(getRecentTracksUri()).Result;
+        string result = client.GetStringAsync(getRecentTracksUrl()).Result;
 
         logMessage = $"Communication with the Last.fm API completed in {stopwatch.ElapsedMilliseconds} ms.";
 
@@ -142,7 +142,7 @@ private static string getFunctionBaseUrl()
     return $"https://{functionHost}";
 }
 
-private static string getRecentTracksUri()
+private static string getRecentTracksUrl()
 {
     // TODO: Is is enough to fetch only 1 page of results?
     return string.Format(
