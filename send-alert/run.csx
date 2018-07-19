@@ -86,7 +86,8 @@ private static string getRecentTracksJson(out string logMessage)
 
         // no work to be done during GetStringAsync execution, so waiting synchronously for an async method
         //   (the `await` operator can only be used within an async method; more: https://goo.gl/MPPkUv)
-        string result = client.GetStringAsync(getRecentTracksUrl()).Result;
+        string apiUrl = getRecentTracksUrl(limit: 200, page: 1);
+        string result = client.GetStringAsync(apiUrl).Result;
 
         logMessage = $"Communication with the Last.fm API completed in {stopwatch.ElapsedMilliseconds} ms.";
 
@@ -142,14 +143,15 @@ private static string getFunctionBaseUrl()
     return $"https://{functionHost}";
 }
 
-private static string getRecentTracksUrl()
+private static string getRecentTracksUrl(int limit, int page)
 {
-    // TODO: Is is enough to fetch only 1 page of results?
     return string.Format(
-        "https://ws.audioscrobbler.com/2.0/?method={0}&user={1}&api_key={2}&format=json",
+        "https://ws.audioscrobbler.com/2.0/?method={0}&user={1}&api_key={2}&limit={3}&page={4}&format=json",
         "user.getrecenttracks",
         getLocalSetting("LastFmUser"),
-        getLocalSetting("LastFmKey")
+        getLocalSetting("LastFmKey"),
+        limit,
+        page
     );
 }
 
