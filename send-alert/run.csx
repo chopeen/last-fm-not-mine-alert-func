@@ -27,9 +27,6 @@ using SendGrid.Helpers.Mail;
 //
 // TODO: Is any old Last.fm API with `removeScrobble` still available?
 //       https://hackage.haskell.org/package/liblastfm-0.0.2.2/docs/Network-Lastfm-API-Library.html
-//
-// TODO: The function execution takes ~2000ms - why so long? Log the time of communication
-//       with the Last.fm API.
 
 public static void Run(TimerInfo timer, TraceWriter log, out SendGridMessage message)
 {
@@ -39,9 +36,13 @@ public static void Run(TimerInfo timer, TraceWriter log, out SendGridMessage mes
     string recentTracksString = "";
     using (HttpClient client = new HttpClient())
     {
+        var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+
         // no work to be done during GetStringAsync execution, so waiting synchronously for an async method
         //   (the `await` operator can only be used within an async method; more: https://goo.gl/MPPkUv)
         recentTracksString = client.GetStringAsync(getRecentTracksUri()).Result;
+
+        log.Info($"Communication with the Last.fm API completed in {stopwatch.ElapsedMilliseconds} ms.");
     }
 
     var recentArtists = getRecentArtists(recentTracksString);
