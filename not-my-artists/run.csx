@@ -13,18 +13,24 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 public static IActionResult Run(HttpRequest req, CloudTable notMyArtistsTable, TraceWriter log)
 {
     log.Info($"{req.Method} request processing started.");
 
-    string artistName = req.Query["name"];
     string resultFormat = req.Query["format"];
 
     // TODO: Check result and log success or failure for all paths
     //       example: log.Info(string.Format("New artist inserted with key {0}.", entity.RowKey));
     if (req.Method == "POST")
     {
+        string requestBody = new StreamReader(req.Body).ReadToEnd();
+        // replaced "dynamic" with an explicit type, because the function expects JSON content
+        JObject postedData = (JObject)JsonConvert.DeserializeObject(requestBody);
+        string artistName = postedData["name"].ToString();
+
         return InsertOne(notMyArtistsTable, artistName);
     }
     else if (req.Method == "GET" && string.IsNullOrEmpty(resultFormat))
