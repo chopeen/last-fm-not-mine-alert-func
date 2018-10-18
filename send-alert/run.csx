@@ -31,29 +31,29 @@ using SendGrid.Helpers.Mail;
 public static void Run(TimerInfo timer, ILogger log, out SendGridMessage message)
 {
     // when executed locally, logged to the console
-    log.Info("Request processing started.");
+    log.LogInformation("Request processing started.");
 
     // TODO: How to change the scope of `log` to global?
     string logMessage;
     string recentTracksJson = getRecentTracksJson(out logMessage);
-    log.Info(logMessage);
+    log.LogInformation(logMessage);
  
     var recentArtists = getRecentArtists(recentTracksJson);
     var notMyArtists = getNotMyArtists();
     var notMyArtistsPlayedRecently = recentArtists.Intersect(notMyArtists).ToList();
 
-    log.Info(string.Format("Recent artists:       {0} [{1}]", string.Join("; ", recentArtists), recentArtists.Count()));
-    log.Info(string.Format("Blacklisted artists:  {0} [{1}]", string.Join("; ", notMyArtists), notMyArtists.Count()));
+    log.LogInformation(string.Format("Recent artists:       {0} [{1}]", string.Join("; ", recentArtists), recentArtists.Count()));
+    log.LogInformation(string.Format("Blacklisted artists:  {0} [{1}]", string.Join("; ", notMyArtists), notMyArtists.Count()));
 
     if (notMyArtistsPlayedRecently.Count() > 0)
     {
         message = getAlertMessage(notMyArtistsPlayedRecently);
-        log.Info("Request processing finished - alert sent.");
+        log.LogInformation("Request processing finished - alert sent.");
     }
     else
     {
         message = null;
-        log.Info("Request processing finished - no alert needed.");
+        log.LogInformation("Request processing finished - no alert needed.");
     }
 }
 

@@ -18,12 +18,12 @@ using Newtonsoft.Json.Linq;
 
 public static IActionResult Run(HttpRequest req, CloudTable notMyArtistsTable, ILogger log)
 {
-    log.Info($"{req.Method} request processing started.");
+    log.LogInformation($"{req.Method} request processing started.");
 
     string resultFormat = req.Query["format"];
 
     // TODO: Check result and log success or failure for all paths
-    //       example: log.Info(string.Format("New artist inserted with key {0}.", entity.RowKey));
+    //       example: log.LogInformation(string.Format("New artist inserted with key {0}.", entity.RowKey));
     if (req.Method == "POST")
     {
         string requestBody = new StreamReader(req.Body).ReadToEnd();
