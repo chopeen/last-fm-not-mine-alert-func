@@ -16,7 +16,7 @@ using Microsoft.WindowsAzure.Storage.Table;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-public static IActionResult Run(HttpRequest req, CloudTable notMyArtistsTable, TraceWriter log)
+public static IActionResult Run(HttpRequest req, CloudTable notMyArtistsTable, ILogger log)
 {
     log.Info($"{req.Method} request processing started.");
 

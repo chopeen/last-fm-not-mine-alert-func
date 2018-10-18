@@ -28,7 +28,7 @@ using SendGrid.Helpers.Mail;
 // TODO: Is any old Last.fm API with `removeScrobble` still available?
 //       https://hackage.haskell.org/package/liblastfm-0.0.2.2/docs/Network-Lastfm-API-Library.html
 
-public static void Run(TimerInfo timer, TraceWriter log, out SendGridMessage message)
+public static void Run(TimerInfo timer, ILogger log, out SendGridMessage message)
 {
     // when executed locally, logged to the console
     log.Info("Request processing started.");
