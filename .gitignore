@@ -26,3 +26,4 @@ local.settings.json
 node_modules
 
 /functions-extensions
+.DS_Store
