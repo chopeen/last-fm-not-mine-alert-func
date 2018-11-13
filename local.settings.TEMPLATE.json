@@ -1,0 +1,20 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "EmailFromAlert": "Dummy Value <dummy@example.com>",
+    "EmailToAlert": "fake@example.com",
+    "LastFmKey": "dummy value",
+    "LastFmSecret": "dummy value",
+    "LastFmUser": "dummy value",
+    "NotMyArtistsApiKey": "dummy value",
+    "SendGridKey": "dummy value",
+    "SendGridTemplateId": "dummy value",
+    "TimerSchedule": "0 */5 * * * *",
+
+    "WEBSITE_TIME_ZONE": "Central European Standard Time",
+    "AzureWebJobsStorage": "dummy value",
+    
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet"
+  },
+  "ConnectionStrings": {}
+}
