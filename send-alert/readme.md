@@ -12,6 +12,8 @@
 
     # execute locally
     func host start
+    # ... or
+    func start --build
 
     # deploy to Azure
     func azure functionapp publish <function-app-name>
